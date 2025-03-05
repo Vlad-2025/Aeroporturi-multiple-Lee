@@ -10,9 +10,6 @@ HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 using namespace std;
 
-//      STRUCTURI   ========
-//  + alte chestii legate de ele
-
 struct zonaSpecialaCerc
 {
     int tipZona = 0;
@@ -31,22 +28,14 @@ vector <aeroport> vectorAeroporturi;
 struct zbor
 {
     string IDzbor;
-    int plecare = 0, destinatie = 0;    // aeroport plecare, aeroport de sosire  -  adik numarul ala de la fiecare aeroport
-    int unitatiCombustibil = 0;     // cate patratele poate sa mearga inainte sa ramana fara benzenoida 
-    int vCroaziera = 0;         // pt cand vreau sa fac calcule d-alea bengoase
+    int plecare = 0, destinatie = 0;    // aeroport plecare, aeroport de sosire
+    int unitatiCombustibil = 0;         // cate patratele poate sa mearga inainte sa ramana fara combustibil 
+    int vCroaziera = 0;                 // TODO: calcul consum combustibil
 
     string tipZbor;     // militar / civil || m / c
-    /*
-        mai vedem
-    */
 };
 
 vector <zbor> vectorZboruri;
-
-//==========================================================================================================================
-
-
-//      FUNCTII     ========================================================================================================
 
 void cerc(int x0, int y0, int r, int** matriceHarta, int tip, int n, int m)
 {
@@ -98,12 +87,12 @@ void dealocareMatrice(int** matrice, int randuri)
 int** creareMatrieHartaNumere(int &randuri, int &coloane)
 {
     /*
-        in matricebaza.txt avem coordonatele aeroporturilor, cat si daca 
+        in matriceBaza.txt avem coordonatele aeroporturilor, cat si daca 
         este cerc sau nu;
         
         daca este cerc, avem raza cercului;
 
-        aeroporturile le tin minte intr-un vector;
+        aeroporturile le pastram intr-un vector;
 
         primele 2 valori din fisier sunt marimea matricei, randuri - coloane;
     
@@ -114,7 +103,7 @@ int** creareMatrieHartaNumere(int &randuri, int &coloane)
     
     int** matriceHartaBaza = creare_matrice(randuri, coloane);
 
-    do
+    while (!fin.eof())
     {
         // 3 valori din fisier sunt x, y si numarul aeroportului;
         // urmatoarea e ce fel de zona, militara sau civila (0 pt militar, 1 pt civil);
@@ -136,7 +125,7 @@ int** creareMatrieHartaNumere(int &randuri, int &coloane)
         matriceHartaBaza[aux.x][aux.y] = aux.numar;
         
 
-    } while (!fin.eof());
+    }
 
     fin.close();
     
@@ -465,31 +454,30 @@ int main()
     int randuri = 0, coloane = 0;
     int** matrice = creareMatrieHartaNumere(randuri, coloane);
     
-    cout << randuri << " " << coloane << endl << endl;
+    cout << "Dimensiuni: " << randuri << " x " << coloane << endl << endl;
 
     afisareMatrice(matrice, randuri, coloane);
 
     cout << endl << endl;
 
-    /*
-    for (auto i = vectorAeroporturi.begin(); i != vectorAeroporturi.end(); i++)
-        cout << "r = " << i->cerc.raza << ", Tip: " << i->cerc.tipZona << "; ";
-    cout << endl;
-    for (auto i = vectorAeroporturi.begin(); i != vectorAeroporturi.end(); i++)
-        cout << "N: " << i->numar << ", x = " << i->x << " y = " << i->y << "; ";
     
+    for (auto& i : vectorAeroporturi)
+        cout << "raza = " << i.cerc.raza << ", Tip: " << i.cerc.tipZona << ";\n";
+    cout << endl;
+    for (auto& i : vectorAeroporturi)
+        cout << "Numar: " << i.numar << ",\tx = " << i.x << "\ty = " << i.y << ";\n";
     
     cout << endl << endl;
     introducereZboruri();
-    for (auto i = vectorZboruri.begin(); i != vectorZboruri.end(); i++)
+    for (auto& i : vectorZboruri)
     {
-        cout << "Zborul " << i->IDzbor << ", pleaca de la aeroportul " << i->plecare << ""
-            " catre aeroportul " << i->destinatie << ", cu " << i->unitatiCombustibil << ""
-            " unitati de combustibil, \ncalatorind cu o viteza de ~" << i->vCroaziera << "km/h" << endl;
+        cout << "Zborul " << i.IDzbor << ", pleaca de la aeroportul " << i.plecare << ""
+            " catre aeroportul " << i.destinatie << ", cu " << i.unitatiCombustibil << ""
+            " unitati de combustibil, \ncalatorind cu o viteza de ~" << i.vCroaziera << "km/h" << endl;
         
         cout << endl;
     }
-    */
+    
 
     cout << endl;
    
@@ -547,13 +535,3 @@ IntroducereTip:
     
     return 0;
 }
-
-/*
-
-left top corner: arr[0][0]
-right top corner: arr[0][m-1]
-left bottom corner: arr[n-1][0]
-right bottom corner: arr[n-1][m-1]
-
-*/
-

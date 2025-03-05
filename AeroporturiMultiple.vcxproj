@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{0a70e4f5-dff1-4afc-81aa-bc8177f6954f}</ProjectGuid>
-    <RootNamespace>HartaLeeBeta2</RootNamespace>
+    <RootNamespace>AeroporturiMultiple</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
